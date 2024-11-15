@@ -6,6 +6,7 @@ package frc.robot.Subsystems;
 
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.IntakeConstants;
 
 public class IntakeSubsystem extends SubsystemBase {
   /** Creates a new IntakeSubsystem. */
@@ -13,12 +14,11 @@ public class IntakeSubsystem extends SubsystemBase {
   Spark motorTwo;
 
   public IntakeSubsystem(Spark motorOne, Spark motorTwo) {
-    motorOne = new Spark(0);
-    motorTwo = new Spark(1);
-
-    
+    motorOne = new Spark(IntakeConstants.motorOneCanID);
+    motorTwo = new Spark(IntakeConstants.motorTwoCanID);
+    // NO need for add requirments    
   }
-
+// Figure out the coast mode
   public void coast(){
     
   }
@@ -26,6 +26,7 @@ public class IntakeSubsystem extends SubsystemBase {
   public void brake(){
 
   }
+  
 
   @Override
   public void periodic() {
