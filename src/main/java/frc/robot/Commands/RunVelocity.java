@@ -26,12 +26,17 @@ public class RunVelocity extends Command {
   @Override
   public void initialize() {
     intakeSubsystem.coast();
-    
+    intakeSubsystem.setPower(0);
+    pidController.setSetpoint(reachVelocity);
+    pidController.setTolerance(5, 10); // Based off of old code 
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    double power = pidController.calculate(intakeSubsystem.getVelocity());
+    intakeSubsystem.setPower(power);
+  }
 
   // Called once the command ends or is interrupted.
   @Override
@@ -40,6 +45,6 @@ public class RunVelocity extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return pidController.atSetpoint();
   }
 }
