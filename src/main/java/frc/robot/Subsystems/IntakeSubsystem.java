@@ -52,6 +52,7 @@ public class IntakeSubsystem extends SubsystemBase {
 
   public double getVelocity(){
     // Get the velocity
+    motorOne.get();
 
   }
 

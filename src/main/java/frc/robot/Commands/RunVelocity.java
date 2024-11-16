@@ -31,7 +31,7 @@ public class RunVelocity extends Command {
     pidController.setTolerance(5, 10); // Based off of old code 
   }
 
-  // Called every time the scheduler runs while the command is scheduled.
+  // Called every time the scheduler runs while the command is schedule
   @Override
   public void execute() {
     double power = pidController.calculate(intakeSubsystem.getVelocity());
