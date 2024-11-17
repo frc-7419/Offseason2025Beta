@@ -12,11 +12,11 @@ import frc.robot.Subsystems.IntakeSubsystem;
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class RunVelocity extends Command {
   /** Creates a new RunVelocity. */
-  IntakeSubsystem intakeSubsystem;
+  private IntakeSubsystem intakeSubsystem;
   private double reachVelocity;
-  PIDController pidController = new PIDController(IntakeConstants.kI, IntakeConstants.kI, IntakeConstants.kD);
+  PIDController pidController = new PIDController(IntakeConstants.kP, IntakeConstants.kI, IntakeConstants.kD);
   public RunVelocity(IntakeSubsystem intakeSubsystem, double reachVelocity) {
-    this.intakeSubsystem = IntakeSubsystem intakeSubsystem;
+    this.intakeSubsystem = intakeSubsystem;
     this.reachVelocity = reachVelocity;
     addRequirements(intakeSubsystem);
     // Use addRequirements() here to declare subsystem dependencies.

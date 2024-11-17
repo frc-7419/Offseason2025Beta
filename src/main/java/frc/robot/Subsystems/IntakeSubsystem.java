@@ -4,14 +4,11 @@
 
 package frc.robot.Subsystems;
 
-import edu.wpi.first.wpilibj.PWM;
-import edu.wpi.first.wpilibj.motorcontrol.PWMSparkMax;
-import edu.wpi.first.wpilibj.motorcontrol.Spark;
+
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.IntakeConstants;
 import com.revrobotics.spark.SparkMax;
-import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.config.SparkMaxConfig;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 
@@ -52,7 +49,7 @@ public class IntakeSubsystem extends SubsystemBase {
 
   public double getVelocity(){
     // Get the velocity
-    motorOne.get();
+    return motorOne.get();
 
   }
 
