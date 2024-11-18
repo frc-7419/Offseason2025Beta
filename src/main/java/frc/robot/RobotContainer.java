@@ -14,17 +14,24 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 
 public class RobotContainer {
-  private final SendableChooser<Command> autoChooser;
+  private final SendableChooser<Command> autonChooser;
   private PathPlannerAuto ovalAuton = new PathPlannerAuto("OvalTestAuto");
   private final CommandXboxController driver = new CommandXboxController(0);
   public RobotContainer() {
     configureBindings();
-    autoChooser = AutoBuilder.buildAutoChooser();
-    SmartDashboard.putData("Auto Chooser", autoChooser);
+    autonChooser = AutoBuilder.buildAutoChooser();
+    SmartDashboard.putData("Current auton", autonChooser);
   }
   
   public Command getAutonomousCommand() {
-    return autoChooser.getSelected();
+    Command selectedAuton = autonChooser.getSelected();
+    if (selectedAuton == null) {
+        SmartDashboard.putString("Auton Status", "No autonomous command selected!");
+        System.out.println("No autonomous command selected");
+        return Commands.none(); 
+    }
+    SmartDashboard.putString("Auton Status", "Autonomous command selected: " + selectedAuton.getName());
+    return selectedAuton;
   }
 
   private void configureBindings(){
