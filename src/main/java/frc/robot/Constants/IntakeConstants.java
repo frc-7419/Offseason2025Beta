@@ -1,5 +1,4 @@
 package frc.robot.Constants;
-// Random Stuff 
 
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 
