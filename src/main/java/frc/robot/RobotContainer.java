@@ -11,10 +11,12 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 
 public class RobotContainer {
   private final SendableChooser<Command> autoChooser;
   private PathPlannerAuto ovalAuton = new PathPlannerAuto("OvalTestAuto");
+  private final CommandXboxController driver = new CommandXboxController(0);
   public RobotContainer() {
     configureBindings();
     autoChooser = AutoBuilder.buildAutoChooser();
@@ -26,7 +28,12 @@ public class RobotContainer {
   }
 
   private void configureBindings(){
- 
+    /* AMRIT AND TIA after setting up drivebase code from tuner x make sure to uncomment this and add the correct names, i just put standard names for now(from documentation)
+    drive.setDefaultCommand( 
+                drive.applyRequest(() -> drive.withVelocityX(-driver.getLeftY() * RobotConstants.kMaxSpeed) 
+                                .withVelocityY(-driver.getLeftX() * RobotConstants.kMaxSpeed) 
+                                .withRotationalRate(-driver.getRightX() * RobotConstants.kMaxAngularRate) 
+                ));*/
   }
   
 }
