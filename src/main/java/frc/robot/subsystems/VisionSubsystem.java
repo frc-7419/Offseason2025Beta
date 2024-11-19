@@ -5,6 +5,7 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.util.LimelightHelpers;
@@ -31,15 +32,16 @@ public class VisionSubsystem extends SubsystemBase {
 
   public Pose2d getNotePose() {
     LimelightResults results = LimelightHelpers.getLatestResults("note");
+    double ty = 0;
+    double tx = 0;
+    double calcY = 0;
+    double calcX = 0;
 
     if (results.targets_Detector.length > 0) {
       LimelightTarget_Detector detection = results.targets_Detector[0];
       String className = detection.className;
-      double ty = detection.ty;
-      double tx = detection.tx;
-
-      double calcY;
-      double calcX;
+      ty = detection.ty;
+      tx = detection.tx;
 
       if (className.equals("note")) {
         double targetHeight = Units.inchesToMeters(1); // 1 inch tall note
@@ -51,7 +53,7 @@ public class VisionSubsystem extends SubsystemBase {
         calcX = calcY * Math.tan(xAngle);
       }
     }
-    return new Pose2d();
+    return new Pose2d(ty, tx, new Rotation2d(calcX, calcY));
   }
 
   @Override
