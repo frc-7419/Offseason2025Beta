@@ -53,7 +53,7 @@ public class VisionSubsystem extends SubsystemBase {
         calcX = calcY * Math.tan(xAngle);
       }
     }
-    return new Pose2d(ty, tx, new Rotation2d(calcX, calcY));
+    return new Pose2d(tx, ty, new Rotation2d(calcX, calcY));
   }
 
   @Override
