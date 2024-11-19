@@ -1,7 +1,7 @@
 package frc.robot.constants;
 
 public final class WristConstants {
-    public static final int CAN_ID = 1;
+    public static final int CAN_ID = 18;
 
     public static final double MAX_VELOCITY = 80.0; // rotations per second
     public static final double MAX_ACCELERATION = 160.0; // rotations per second^2
