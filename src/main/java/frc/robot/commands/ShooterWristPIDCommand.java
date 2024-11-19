@@ -6,13 +6,15 @@ package frc.robot.commands;
 
 import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.units.measure.Angle;
+import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.units.measure.Velocity;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.constants.WristConstants;
 import frc.robot.subsystems.ShooterWrist;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class ShooterWristCommand extends Command {
+public class ShooterWristPIDCommand extends Command {
   /** Creates a new ShooterWristCommand. */
   private final ShooterWrist shooterWrist;
   private final PIDController shooterWristPIDController;
@@ -20,7 +22,7 @@ public class ShooterWristCommand extends Command {
   private final ArmFeedforward armFeedforward = new ArmFeedforward(0, 0.02809 * 2.5, 0.01 * 1.5);
   private final double setPoint;
 
-  public ShooterWristCommand(ShooterWrist shooterWrist, double setPoint, double feedForward) {
+  public ShooterWristPIDCommand(ShooterWrist shooterWrist, double setPoint, double feedForward) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.shooterWrist = shooterWrist;
     this.setPoint = setPoint;
@@ -40,10 +42,10 @@ public class ShooterWristCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double currentPosition = shooterWrist.getCurrentPosition();
-    double currentVelocity = shooterWrist.getVelocityInRadians();
-    shooterWrist.setPower(armFeedforward.calculate(currentPosition, currentVelocity) + shooterWristPIDController.calculate(setPoint));
-
+    Angle currentPosition = shooterWrist.getCurrentPosition();
+    AngularVelocity currentVelocity = shooterWrist.getVelocityInRadians();
+    shooterWrist.setPower(armFeedforward.calculate(currentPosition, currentVelocity));
+  }
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
@@ -56,4 +58,5 @@ public class ShooterWristCommand extends Command {
   public boolean isFinished() {
     return false;
   }
-  }
+}
+  
