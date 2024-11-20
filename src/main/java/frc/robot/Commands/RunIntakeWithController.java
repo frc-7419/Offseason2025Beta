@@ -25,7 +25,7 @@ public class RunIntakeWithController extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    intakeSubsystem.runMotor(joystick.getLeftY());
+    intakeSubsystem.runMotor(joystick.getRightBumperPressed || joystick.getLeftBumperPressed());
   }
 
   // Called once the command ends or is interrupted.
