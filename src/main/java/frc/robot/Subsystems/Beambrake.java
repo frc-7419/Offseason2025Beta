@@ -7,14 +7,15 @@ package frc.robot.Subsystems;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.IntakeConstants;
 
 public class Beambrake extends SubsystemBase {
   /** Creates a new Beambrake. */
   private final DigitalInput beamBreakFront;
   private final DigitalInput beamBreakBack;
   public Beambrake() {
-    beamBreakFront = new DigitalInput(2);
-    beamBreakBack = new DigitalInput(7);
+    beamBreakFront = new DigitalInput(IntakeConstants.frontBeamBrake);
+    beamBreakBack = new DigitalInput(IntakeConstants.backBeamBrake);
   }
   public boolean frontBeamBreakIsTriggered() {
     return !beamBreakFront.get();
