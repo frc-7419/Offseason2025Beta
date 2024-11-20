@@ -5,10 +5,9 @@ import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.config.SparkMaxConfig;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
-
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.units.Units;
 
 public class ShooterSubsystem extends SubsystemBase {
     SparkMax topShooterMotor1;
@@ -16,11 +15,23 @@ public class ShooterSubsystem extends SubsystemBase {
     SparkMax bottomShooterMotor1;
     SparkMax bottomShooterMotor2;
 
+    PIDController topShooterPIDController1;
+    PIDController topShooterPIDController2;
+    PIDController bottomShooterPIDController1;
+    PIDController bottomShooterPIDController2;
+
+    double desiredRPM = ShooterConstants.desiredRPM;
+
     public ShooterSubsystem() {
         this.topShooterMotor1 = new SparkMax(ShooterConstants.kTopShooterMotorCanID, MotorType.kBrushless);
         this.topShooterMotor2 = new SparkMax(ShooterConstants.kTopShooterMotorCanID, MotorType.kBrushless);
         this.bottomShooterMotor1 = new SparkMax(ShooterConstants.kBottomShooterMotorCanID, MotorType.kBrushless);
         this.bottomShooterMotor2 = new SparkMax(ShooterConstants.kBottomShooterMotorCanID, MotorType.kBrushless);
+        
+        topShooterPIDController1.setTolerance(2);
+        topShooterPIDController1.setSetpoint(desiredRPM);
+        
+
     }
 
     public void coast() {
@@ -37,6 +48,29 @@ public class ShooterSubsystem extends SubsystemBase {
         bottomShooterMotor2.configure(new SparkMaxConfig().idleMode(IdleMode.kBrake), null, null);
     }
 
+    // Set PID coefficients from ShooterConstants
+    private void configurePIDControllers() {
+        topShooterPIDController1.setP(ShooterConstants.kP);
+        topShooterPIDController1.setI(ShooterConstants.kI);
+        topShooterPIDController1.setD(ShooterConstants.kD);
+
+        topShooterPIDController2.setP(ShooterConstants.kP);
+        topShooterPIDController2.setI(ShooterConstants.kI);
+        topShooterPIDController2.setD(ShooterConstants.kD);
+
+        bottomShooterPIDController1.setP(ShooterConstants.kP);
+        bottomShooterPIDController1.setI(ShooterConstants.kI);
+        bottomShooterPIDController1.setD(ShooterConstants.kD);
+
+        bottomShooterPIDController2.setP(ShooterConstants.kP);
+        bottomShooterPIDController2.setI(ShooterConstants.kI);
+        bottomShooterPIDController2.setD(ShooterConstants.kD);
+
+       
+    }
+
+    
+
     public void setPower(double power) {
         topShooterMotor1.set(power);
         topShooterMotor2.set (power);
@@ -49,21 +83,6 @@ public class ShooterSubsystem extends SubsystemBase {
         topShooterMotor2.setVoltage(voltage);
         bottomShooterMotor1.setVoltage(voltage);
         bottomShooterMotor2.setVoltage(voltage);
-    }
-
-    public double convertToRPM(double convertee) {
-        double rpm = Units.RPM.convertFrom(convertee, Units.RPM);
-        return rpm;
-    }
-
-    public double convertToRPS(double convertee) {
-        double rps = Units.RevolutionsPerSecond.convertFrom(convertee, Units.RevolutionsPerSecond);
-        return rps;
-    }
-
-    public double convertToMS(double convertee) {
-        double ms = Units.MetersPerSecond.convertFrom(convertee, Units.MetersPerSecond);
-        return ms;
     }
 
     @Override

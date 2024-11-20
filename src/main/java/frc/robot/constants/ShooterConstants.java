@@ -7,7 +7,10 @@ public class ShooterConstants {
     public static final int kSerializerBackID = 21;
 
     // Replace arbitrary PID values later
-    public static final int kP = 0;
-    public static final int kI = 0;
-    public static final int kD = 0;
+    public static final double kP = 0;
+    public static final double kI = 0;
+    public static final double kD = 0;
+
+    // Replace with actual value during testing
+    public static final double desiredRPM = 5000;
 }
