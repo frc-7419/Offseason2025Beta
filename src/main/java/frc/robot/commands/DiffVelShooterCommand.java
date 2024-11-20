@@ -25,6 +25,6 @@ public class DiffVelShooterCommand extends Command {
 
     @Override
     public boolean isFinished() {
-    return false;
-  }
+        return false;
+    }
 }

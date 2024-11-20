@@ -30,8 +30,6 @@ public class ShooterSubsystem extends SubsystemBase {
         
         topShooterPIDController1.setTolerance(2);
         topShooterPIDController1.setSetpoint(desiredRPM);
-        
-
     }
 
     public void coast() {
@@ -68,8 +66,6 @@ public class ShooterSubsystem extends SubsystemBase {
 
        
     }
-
-    
 
     public void setPower(double power) {
         topShooterMotor1.set(power);
