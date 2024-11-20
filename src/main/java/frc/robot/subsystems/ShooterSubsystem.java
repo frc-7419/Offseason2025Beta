@@ -23,10 +23,10 @@ public class ShooterSubsystem extends SubsystemBase {
     double desiredRPM = ShooterConstants.desiredRPM;
 
     public ShooterSubsystem() {
-        this.topShooterMotor1 = new SparkMax(ShooterConstants.kTopShooterMotorCanID, MotorType.kBrushless);
-        this.topShooterMotor2 = new SparkMax(ShooterConstants.kTopShooterMotorCanID, MotorType.kBrushless);
-        this.bottomShooterMotor1 = new SparkMax(ShooterConstants.kBottomShooterMotorCanID, MotorType.kBrushless);
-        this.bottomShooterMotor2 = new SparkMax(ShooterConstants.kBottomShooterMotorCanID, MotorType.kBrushless);
+        topShooterMotor1 = new SparkMax(ShooterConstants.kTopShooterMotorCanID, MotorType.kBrushless);
+        topShooterMotor2 = new SparkMax(ShooterConstants.kTopShooterMotorCanID, MotorType.kBrushless);
+        bottomShooterMotor1 = new SparkMax(ShooterConstants.kBottomShooterMotorCanID, MotorType.kBrushless);
+        bottomShooterMotor2 = new SparkMax(ShooterConstants.kBottomShooterMotorCanID, MotorType.kBrushless);
         
         topShooterPIDController1.setTolerance(2);
         topShooterPIDController1.setSetpoint(desiredRPM);
