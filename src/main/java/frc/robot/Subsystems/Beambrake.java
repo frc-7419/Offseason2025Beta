@@ -4,14 +4,30 @@
 
 package frc.robot.Subsystems;
 
+import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Beambrake extends SubsystemBase {
   /** Creates a new Beambrake. */
-  public Beambrake() {}
+  private final DigitalInput beamBreakFront;
+  private final DigitalInput beamBreakBack;
+  public Beambrake() {
+    beamBreakFront = new DigitalInput(2);
+    beamBreakBack = new DigitalInput(7);
+  }
+  public boolean frontBeamBreakIsTriggered() {
+    return !beamBreakFront.get();
+  }
+
+  public boolean backBeamBreakIsTriggered() {
+    return !beamBreakBack.get();
+  }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    SmartDashboard.putBoolean("Front Beam Break Triggered",  frontBeamBreakIsTriggered());
+    SmartDashboard.putBoolean("Back Beam Brake Triggered", backBeamBreakIsTriggered());
   }
 }
