@@ -63,8 +63,6 @@ public class ShooterSubsystem extends SubsystemBase {
         bottomShooterPIDController2.setP(ShooterConstants.kP);
         bottomShooterPIDController2.setI(ShooterConstants.kI);
         bottomShooterPIDController2.setD(ShooterConstants.kD);
-
-       
     }
 
     public void setPower(double power) {
