@@ -1,10 +1,13 @@
 package frc.robot.subsystems;
 
 import frc.robot.constants.ShooterConstants;
+
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.config.SparkMaxConfig;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
+
+import edu.wpi.first.units.Units;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -79,21 +82,63 @@ public class ShooterSubsystem extends SubsystemBase {
         bottomShooterMotor2.setVoltage(voltage);
     }
 
+    public double convertToRPM(double convertee) {
+        double rpm = Units.RPM.convertFrom(convertee, Units.RPM);
+        return rpm;
+    }
+
+    public double convertToRPS(double convertee) {
+        double rps = Units.RevolutionsPerSecond.convertFrom(convertee, Units.RevolutionsPerSecond);
+        return rps;
+    }
+
+    public double convertToMS(double convertee) {
+        double ms = Units.MetersPerSecond.convertFrom(convertee, Units.MetersPerSecond);
+        return ms;
+    }
+
     @Override
     public void periodic() {
-        SmartDashboard.putNumber("Top Shooter Motor 1 Current", topShooterMotor1.getOutputCurrent());
-        SmartDashboard.putNumber("Top Shooter Motor 2 Current", topShooterMotor2.getOutputCurrent());
-        SmartDashboard.putNumber("Bottom Shooter Motor 1 Current", bottomShooterMotor1.getOutputCurrent());
-        SmartDashboard.putNumber("Bottom Shooter Motor 2 Current", bottomShooterMotor2.getOutputCurrent());
+        // Get current draw
+        SmartDashboard.putNumber("Top Shooter Motor 1 Current Draw", topShooterMotor1.getOutputCurrent());
+        SmartDashboard.putNumber("Top Shooter Motor 2 Current Draw", topShooterMotor2.getOutputCurrent());
+        SmartDashboard.putNumber("Bottom Shooter Motor 1 Current Draw", bottomShooterMotor1.getOutputCurrent());
+        SmartDashboard.putNumber("Bottom Shooter Motor 2 Current Draw", bottomShooterMotor2.getOutputCurrent());
 
+        // Get voltage
         SmartDashboard.putNumber("Top Shooter Motor 1 Voltage", topShooterMotor1.getBusVoltage());
         SmartDashboard.putNumber("Top Shooter Motor 2 Voltage", topShooterMotor2.getBusVoltage());
         SmartDashboard.putNumber("Bottom Shooter Motor 1 Voltage", bottomShooterMotor1.getBusVoltage());
         SmartDashboard.putNumber("Bottom Shooter Motor 2 Voltage", bottomShooterMotor2.getBusVoltage());
 
+        // Get speed
         SmartDashboard.putNumber("Top Shooter Motor 1 Speed", topShooterMotor1.get());
         SmartDashboard.putNumber("Top Shooter Motor 2 Speed", topShooterMotor2.get());
         SmartDashboard.putNumber("Bottom Shooter Motor 1 Speed", bottomShooterMotor1.get());
         SmartDashboard.putNumber("Bottom Shooter Motor 2 Speed", bottomShooterMotor2.get());
+
+        // Get RPM
+        SmartDashboard.putNumber("Top Shooter Motor 1 RPM", convertToRPM(topShooterMotor1.get()));
+        SmartDashboard.putNumber("Top Shooter Motor 2 RPM", convertToRPM(topShooterMotor2.get()));
+        SmartDashboard.putNumber("Bottom Shooter Motor 1 RPM", convertToRPM(bottomShooterMotor1.get()));
+        SmartDashboard.putNumber("Bottom Shooter Motor 2 RPM", convertToRPM(bottomShooterMotor2.get()));
+
+        // Get RPS
+        SmartDashboard.putNumber("Top Shooter Motor 1 RPS", convertToRPS(topShooterMotor1.get()));
+        SmartDashboard.putNumber("Top Shooter Motor 2 RPS", convertToRPS(topShooterMotor2.get()));
+        SmartDashboard.putNumber("Bottom Shooter Motor 1 RPS", convertToRPS(bottomShooterMotor1.get()));
+        SmartDashboard.putNumber("Bottom Shooter Motor 2 RPS", convertToRPS(bottomShooterMotor2.get()));
+
+        // Get m/s
+        SmartDashboard.putNumber("Top Shooter Motor 1 MS", convertToMS(topShooterMotor1.get()));
+        SmartDashboard.putNumber("Top Shooter Motor 2 MS", convertToMS(topShooterMotor2.get()));
+        SmartDashboard.putNumber("Bottom Shooter Motor 1 MS", convertToMS(bottomShooterMotor1.get()));
+        SmartDashboard.putNumber("Bottom Shooter Motor 2 MS", convertToMS(bottomShooterMotor2.get()));
+
+        // Get temperature
+        SmartDashboard.putNumber("Top Shooter Motor 1 Temperature", topShooterMotor1.getMotorTemperature());
+        SmartDashboard.putNumber("Top Shooter Motor 2 Temperature", topShooterMotor2.getMotorTemperature());
+        SmartDashboard.putNumber("Bottom Shooter Motor 1 Temperature", bottomShooterMotor1.getMotorTemperature());
+        SmartDashboard.putNumber("Bottom Shooter Motor 2 Temperature", bottomShooterMotor2.getMotorTemperature());
     }
 }
