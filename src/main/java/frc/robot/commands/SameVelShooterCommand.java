@@ -3,31 +3,27 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.ShooterSubsystem;
 
 public class SameVelShooterCommand extends Command {
-    private final ShooterSubsystem shooterSubsystem;
-    public SameVelShooterCommand(ShooterSubsystem shooterSubsystem) {
-        this.shooterSubsystem = shooterSubsystem;
-    }
-
-    @Override
-    public void initialize() {
-        shooterSubsystem.coast();
-    }
-
-    @Override
-    public void execute() {}
-
-    @Override
-    public void end(boolean interrupted) {
-        shooterSubsystem.brake();
-    }
-
-    @Override
-    public boolean isFinished() {
-    return false;
-  }
-
-
-
+private final ShooterSubsystem shooter;
+public SameVelShooterCommand(ShooterSubsystem shooter) {
+    this.shooter = shooter;
 }
 
+@Override
+public void initialize() {
+    shooter.coast();
+}
 
+@Override
+public void execute() {}
+
+@Override
+public void end(boolean interrupted) {
+    shooter.brake();
+}
+
+@Override
+public boolean isFinished() {
+return false;
+}
+
+}

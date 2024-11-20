@@ -3,14 +3,15 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.ShooterSubsystem;
 
 public class DiffVelShooterCommand extends Command {
-    private final ShooterSubsystem shooterSubsystem;
-    public DiffVelShooterCommand(ShooterSubsystem shooterSubsystem) {
-        this.shooterSubsystem = shooterSubsystem;
+    private final ShooterSubsystem shooter;
+
+    public DiffVelShooterCommand(ShooterSubsystem shooter) {
+        this.shooter = shooter;
     }
 
     @Override
     public void initialize() {
-        shooterSubsystem.coast();
+        shooter.coast();
     }
 
     @Override
@@ -18,16 +19,11 @@ public class DiffVelShooterCommand extends Command {
 
     @Override
     public void end(boolean interrupted) {
-        shooterSubsystem.brake();
+        shooter.brake();
     }
 
     @Override
     public boolean isFinished() {
     return false;
   }
-
-
-
 }
-
-
