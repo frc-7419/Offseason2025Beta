@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import javax.management.relation.RoleNotFoundException;
+
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 
@@ -12,11 +14,15 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import frc.robot.commands.RunSwerveDrive;
+import frc.robot.subsystems.SwerveBase;
 
 public class RobotContainer {
   private final SendableChooser<Command> autonChooser;
+  private final SwerveBase drive = new SwerveBase();
   private PathPlannerAuto ovalAuton = new PathPlannerAuto("OvalTestAuto");
   private final CommandXboxController driver = new CommandXboxController(0);
+  private final RunSwerveDrive runSwerveDrive = new RunSwerveDrive(driver,drive);
   public RobotContainer() {
     configureBindings();
     autonChooser = AutoBuilder.buildAutoChooser();
@@ -41,6 +47,9 @@ public class RobotContainer {
                                 .withVelocityY(-driver.getLeftX() * RobotConstants.kMaxSpeed) 
                                 .withRotationalRate(-driver.getRightX() * RobotConstants.kMaxAngularRate) 
                 ));*/
+  }
+  public void setDefaultCommands(){
+    drive.setDefaultCommand(runSwerveDrive);
   }
   
 }
