@@ -4,28 +4,26 @@
 
 package frc.robot.subsystems;
 
-import com.revrobotics.spark.SparkMax;
-import com.revrobotics.spark.SparkLowLevel.MotorType;
-import com.revrobotics.spark.config.SparkBaseConfig;
-import com.revrobotics.spark.config.SparkMaxConfig;
-import com.revrobotics.*;
+import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.NeutralModeValue;
+import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.WristConstants;
+
 public class ShooterWrist extends SubsystemBase {
-  private final SparkMax wristMotor;
-  private final RelativeEncoder encoder;
+  private final TalonFX wristMotor;
+  private final DutyCycleEncoder encoder;
   private double targetPosition = WristConstants.STOW_POSITION;
 
   public ShooterWrist() {
-    wristMotor = new SparkMax(WristConstants.CAN_ID, MotorType.kBrushless); // Replace 1 with actual CAN ID
-    encoder = wristMotor.getEncoder();
+    wristMotor = new TalonFX(WristConstants.CAN_ID); // Replace 1 with actual CAN ID
+    encoder = new DutyCycleEncoder(5);
     configureMotor();
   }
 
   private void configureMotor() {
     wristMotor.set(0);
-    encoder.setPosition(0);
   }
 
   public double getVelocity() {
@@ -44,32 +42,28 @@ public class ShooterWrist extends SubsystemBase {
       return getVelocity() * 2 * Math.PI;
   }
 
-  public double getCurrentPosition() {
-    return encoder.getPosition();
-  }
+
+  // public double getCurrentPosition() {
+  //   return encoder.getPosition();
+  // }
 
   public void setTargetPosition(double position) {
     targetPosition = position;
   }
 
-  public boolean isAtPosition() {
-    return Math.abs(getCurrentPosition() - targetPosition) < 0.02; // Within 2% of target
-  }
-
+  // Brake the motor --> fix this
   public void brake() {
-    wristMotor.configure(new SparkMaxConfig().idleMode(SparkBaseConfig.IdleMode.kBrake), null, null);
+    wristMotor.setNeutralMode(NeutralModeValue.Brake);
   }
 
   public void coast() {
-    wristMotor.configure(new SparkMaxConfig().idleMode(SparkBaseConfig.IdleMode.kCoast), null, null);
+    wristMotor.setNeutralMode(NeutralModeValue.Coast);
   }
-
 
   @Override
   public void periodic() {
-    SmartDashboard.putNumber("Wrist Position", getCurrentPosition());
     SmartDashboard.putNumber("Wrist Target", targetPosition);
-    SmartDashboard.putNumber("Wrist Velocity", encoder.getVelocity());
-    SmartDashboard.putNumber("Wrist Current", wristMotor.getOutputCurrent());
+    SmartDashboard.putNumber("Wrist Rotations", encoder.get());
+    SmartDashboard.putNumber("Wrist Velocity", wristMotor.getVelocity().getValueAsDouble());
   }
 }
