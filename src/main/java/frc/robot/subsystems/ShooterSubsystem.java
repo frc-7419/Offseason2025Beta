@@ -8,6 +8,7 @@ import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.units.Units;
 
 public class ShooterSubsystem extends SubsystemBase {
     SparkMax topShooterMotor1;
@@ -48,6 +49,21 @@ public class ShooterSubsystem extends SubsystemBase {
         topShooterMotor2.setVoltage(voltage);
         bottomShooterMotor1.setVoltage(voltage);
         bottomShooterMotor2.setVoltage(voltage);
+    }
+
+    public double convertToRPM(double convertee) {
+        double rpm = Units.RPM.convertFrom(convertee, Units.RPM);
+        return rpm;
+    }
+
+    public double convertToRPS(double convertee) {
+        double rps = Units.RevolutionsPerSecond.convertFrom(convertee, Units.RevolutionsPerSecond);
+        return rps;
+    }
+
+    public double convertToMS(double convertee) {
+        double ms = Units.MetersPerSecond.convertFrom(convertee, Units.MetersPerSecond);
+        return ms;
     }
 
     @Override
