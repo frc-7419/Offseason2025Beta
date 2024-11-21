@@ -45,15 +45,15 @@ public class IntakeSubsystem extends SubsystemBase {
   }
 
   public double getVelocity() {
-    return motorOne.getVelocity();
+    return motorOne.get();
   }
 
   @Override
   public void periodic() {
       SmartDashboard.putNumber("Voltage -- Motor One", motorOne.getBusVoltage());
       SmartDashboard.putNumber("Voltage -- Motor Two", motorTwo.getBusVoltage());
-      SmartDashboard.putNumber("Speed -- Motor One", motorOne.getVelocity());
-      SmartDashboard.putNumber("Speed -- Motor Two", motorTwo.getVelocity());
+      SmartDashboard.putNumber("Speed -- Motor One", motorOne.get());
+      SmartDashboard.putNumber("Speed -- Motor Two", motorTwo.get());
       SmartDashboard.putNumber("Current Draw -- Motor One", motorOne.getOutputCurrent());
       SmartDashboard.putNumber("Current Draw -- Motor Two", motorTwo.getOutputCurrent());
   }
