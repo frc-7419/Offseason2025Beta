@@ -8,6 +8,12 @@ public final class WristConstants {
 
     public static final double STOW_POSITION = 0.0;
 
+    //Preset Positions
+    public static final double SCORING = 45.0;
+    public static final double INTAKE_POSITION = -30.0;
+    public static final double HOME_POSITION = 0.0;
+    
+    
     public static final double kP = 4.8;
     public static final double kI = 0.0;
     public static final double kD = 0.1;
