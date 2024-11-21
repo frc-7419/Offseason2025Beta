@@ -5,17 +5,23 @@
 package frc.robot.Commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Subsystems.BeamBreakSubsystem;
+import frc.robot.Subsystems.IntakeSubsystem;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class RunIntakeWithController extends Command {
   private final CommandXboxController joystick;
-  /** Creates a new RunIntakeWithController. */
-  public RunIntakeWithController( CommandXboxController joystick) {
-    // Use addRequirements() here to declare subsystem dependencies.
+  private final IntakeSubsystem intakeSubsystem;
+  private final BeamBreakSubsystem beamBreakSubsystem;
+
+  public RunIntakeWithController(CommandXboxController joystick, IntakeSubsystem intakeSubsystem, BeamBreakSubsystem beamBreakSubsystem) {
     this.intakeSubsystem = intakeSubsystem;
+    this.beamBreakSubsystem = beamBreakSubsystem;
     this.joystick = joystick;
     addRequirements(intakeSubsystem);
+    addRequirements(beamBreakSubsystem);
   }
+
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
@@ -26,13 +32,15 @@ public class RunIntakeWithController extends Command {
   @Override
   public void execute() {
     if ((joystick.getRightBumperPressed || joystick.getLeftBumperPressed()));
-      intakeSubsystem.setPower(0.9)
+      intakeSubsystem.setPower(0.9);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    intakeSubsystem.brake();
+    if (beamBreakSubsystem.frontBeamBreakIsTriggered() == true || beamBreakSubsystem.backBeamBreakIsTriggered() == true) {
+      intakeSubsystem.brake();
+    }
   }
 
   // Returns true when the command should end.
