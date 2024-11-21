@@ -141,4 +141,9 @@ public class ShooterSubsystem extends SubsystemBase {
         SmartDashboard.putNumber("Bottom Shooter Motor 1 Temperature", bottomShooterMotor1.getMotorTemperature());
         SmartDashboard.putNumber("Bottom Shooter Motor 2 Temperature", bottomShooterMotor2.getMotorTemperature());
     }
+
+    public double get() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'get'");
+    }
 }
