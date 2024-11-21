@@ -37,9 +37,9 @@ public class SwerveBase extends SubsystemBase {
     setSwerveState(new SwerveDriveKinematics().toSwerveModuleStates(chassis));
   }
   public ChassisSpeeds getChassisSpeedsFromController(double vx, double vy, double rx){
-    vx = Math.abs(vx)>0.4 ? vx : 0;
-    vy = Math.abs(vy)>0.4 ? vy : 0;
-    rx = Math.abs(rx)>0.4 ? rx : 0;
+    vx = Math.abs(vx)>0.1 ? vx : 0;
+    vy = Math.abs(vy)>0.1 ? vy : 0;
+    rx = Math.abs(rx)>0.1 ? rx : 0;
     return ChassisSpeeds.fromFieldRelativeSpeeds(vx, vy, rx, gyro.getRotation2d());
   }
   public void coast(){
