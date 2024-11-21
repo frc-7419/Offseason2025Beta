@@ -2,7 +2,10 @@ package frc.robot.subsystems;
 
 import frc.robot.constants.ShooterConstants;
 
+import java.util.Base64.Encoder;
+
 import com.revrobotics.spark.SparkMax;
+import com.revrobotics.RelativeEncoder;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.config.SparkMaxConfig;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
@@ -17,6 +20,12 @@ public class ShooterSubsystem extends SubsystemBase {
     SparkMax topShooterMotor2;
     SparkMax bottomShooterMotor1;
     SparkMax bottomShooterMotor2;
+
+    
+    Encoder topEncoder1;
+    Encoder topEncoder2;
+    Encoder bottomEncoder1;
+    Encoder bottomEncoder2;
 
     PIDController topShooterPIDController1;
     PIDController topShooterPIDController2;
@@ -51,6 +60,12 @@ public class ShooterSubsystem extends SubsystemBase {
 
     // Set PID coefficients from ShooterConstants
     private void configurePIDControllers() {
+
+        RelativeEncoder topEncoder1 = topShooterMotor1.getEncoder();
+        RelativeEncoder topEncoder2 = topShooterMotor2.getEncoder();
+        RelativeEncoder bottomEncoder1 = bottomShooterMotor1.getEncoder();
+        RelativeEncoder bottomEncoder2 = bottomShooterMotor2.getEncoder();
+        
         topShooterPIDController1.setP(ShooterConstants.kP);
         topShooterPIDController1.setI(ShooterConstants.kI);
         topShooterPIDController1.setD(ShooterConstants.kD);
@@ -66,6 +81,20 @@ public class ShooterSubsystem extends SubsystemBase {
         bottomShooterPIDController2.setP(ShooterConstants.kP);
         bottomShooterPIDController2.setI(ShooterConstants.kI);
         bottomShooterPIDController2.setD(ShooterConstants.kD);
+
+        topShooterPIDController1 = new PIDController(ShooterConstants.kP, ShooterConstants.kI, ShooterConstants.kD, 
+                                               topEncoder1.getVelocity());
+        topShooterPIDController2 = new PIDController(ShooterConstants.kP, ShooterConstants.kI, ShooterConstants.kD, 
+                                               topEncoder2.getVelocity());
+        bottomShooterPIDController1 = new PIDController(ShooterConstants.kP, ShooterConstants.kI, ShooterConstants.kD, 
+                                               bottomEncoder1.getVelocity());
+        bottomShooterPIDController2 = new PIDController(ShooterConstants.kP, ShooterConstants.kI, ShooterConstants.kD, 
+                                               bottomEncoder2.getVelocity());
+        
+        topShooterPIDController1.setSetpoint(convertToRPM(desiredRPM));
+        topShooterPIDController2.setSetpoint(convertToRPM(desiredRPM));
+        bottomShooterPIDController1.setSetpoint(convertToRPM(desiredRPM));
+        bottomShooterPIDController2.setSetpoint(convertToRPM(desiredRPM));
     }
 
     public void setPower(double power) {
