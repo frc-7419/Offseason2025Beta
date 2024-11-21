@@ -17,7 +17,6 @@ public class RunVoltage extends Command {
     this.intakeSubsystem = intakeSubsystem;
     this.voltage = voltage;
     addRequirements(intakeSubsystem);
-    // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
