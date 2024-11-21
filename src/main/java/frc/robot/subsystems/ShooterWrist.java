@@ -6,6 +6,14 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
+
+import edu.wpi.first.units.AngleUnit;
+import edu.wpi.first.units.AngularVelocityUnit;
+import edu.wpi.first.units.Unit;
+import edu.wpi.first.units.Units;
+import edu.wpi.first.units.measure.Angle;
+import edu.wpi.first.units.measure.AngularVelocity;
+import edu.wpi.first.units.measure.Voltage;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -34,12 +42,19 @@ public class ShooterWrist extends SubsystemBase {
     wristMotor.setVoltage(voltage);
   }
 
+  /**
+   * Sets the power output for the wrist motor.
+   *
+   * @param power the power level to set, where -1.0 is full reverse,
+   *              0.0 is neutral, and 1.0 is full forward.
+   */
+
   public void setPower(double power) {
     wristMotor.set(power);
   }
 
-  public double getVelocityInRadians() {
-      return getVelocity() * 2 * Math.PI;
+  public AngularVelocity getVelocityInRadians() {
+      return AngularVelocity.ofBaseUnits(getVelocity() * 2 * Math.PI, Units.RadiansPerSecond);
   }
 
 
@@ -49,6 +64,10 @@ public class ShooterWrist extends SubsystemBase {
 
   public void setTargetPosition(double position) {
     targetPosition = position;
+  }
+
+  public Angle getPosition() {
+    return Angle.ofBaseUnits(encoder.get(), Units.Radians);
   }
 
   // Brake the motor --> fix this

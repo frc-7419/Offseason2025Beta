@@ -6,6 +6,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.units.measure.Velocity;
@@ -42,15 +43,13 @@ public class ShooterWristPIDCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    Angle currentPosition = shooterWrist.getCurrentPosition();
+    Angle currentPosition =  shooterWrist.getPosition();
     AngularVelocity currentVelocity = shooterWrist.getVelocityInRadians();
-    shooterWrist.setPower(armFeedforward.calculate(currentPosition, currentVelocity) + shooterWristPIDController.calculate(currentPosition, currentVelocity) + feedForward);
-  }
+    shooterWrist.setPower(shooterWristPIDController.calculate(currentPosition, currentVelocity).);
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     shooterWrist.brake();
-    shooterWrist.setPower(0);
   }
 
   // Returns true when the command should end.
