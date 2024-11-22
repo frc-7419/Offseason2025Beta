@@ -5,57 +5,63 @@
 package frc.robot.commands;
 
 import edu.wpi.first.math.controller.ArmFeedforward;
-import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.math.util.Units;
+import edu.wpi.first.math.controller.ProfiledPIDController;
+import edu.wpi.first.math.trajectory.TrapezoidProfile;
+import edu.wpi.first.units.Unit;
+import edu.wpi.first.units.Units;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularVelocity;
-import edu.wpi.first.units.measure.Velocity;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.constants.WristConstants;
 import frc.robot.subsystems.ShooterWrist;
 
-/* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class ShooterWristPIDCommand extends Command {
-  /** Creates a new ShooterWristCommand. */
     private final ShooterWrist shooterWrist;
-    private final PIDController shooterWristPIDController;
-    private double feedForward = (0.9 / 12) / 2.67;
-    private final ArmFeedforward armFeedforward = new ArmFeedforward(0, 0.02809 * 2.5, 0.01 * 1.5);
+    private final ProfiledPIDController shooterWristPIDController;
+    private final ArmFeedforward armFeedforward;
     private final double setPoint;
-  
-    public ShooterWristPIDCommand(ShooterWrist shooterWrist, double setPoint, double feedForward) {
-      // Use addRequirements() here to declare subsystem dependencies.
-      this.shooterWrist = shooterWrist;
-      this.setPoint = setPoint;
-      this.feedForward = feedForward;
-    this.shooterWristPIDController = new PIDController(WristConstants.kP, WristConstants.kI, WristConstants.kD );
-    addRequirements(shooterWrist);
-  }
 
-  // Called when the command is initially scheduled.
-  @Override
-  public void initialize() {
-    shooterWrist.coast();
-    shooterWristPIDController.setTolerance(0.5);
-    shooterWristPIDController.setSetpoint(setPoint);
-  }
+    public ShooterWristPIDCommand(ShooterWrist shooterWrist, double setPoint) {
+        this.shooterWrist = shooterWrist;
+        this.setPoint = setPoint;
+        this.armFeedforward = new ArmFeedforward(WristConstants.kS, WristConstants.kV, WristConstants.kA);
+        this.shooterWristPIDController = new ProfiledPIDController(
+            WristConstants.kP, 
+            WristConstants.kI, 
+            WristConstants.kD, 
+            new TrapezoidProfile.Constraints(WristConstants.MAX_VELOCITY, WristConstants.MAX_ACCELERATION)
+        );
+        addRequirements(shooterWrist);
+    }
 
-  // Called every time the scheduler runs while the command is scheduled.
-  @Override
-  public void execute() {
-    Angle currentPosition =  shooterWrist.getPosition();
-    AngularVelocity currentVelocity = shooterWrist.getVelocityInRadians();
-    shooterWrist.setPower(shooterWristPIDController.calculate(currentPosition, currentVelocity).);
-  // Called once the command ends or is interrupted.
-  @Override
-  public void end(boolean interrupted) {
-    shooterWrist.brake();
-  }
+    @Override
+    public void initialize() {
+        shooterWrist.coast();
+        shooterWristPIDController.setTolerance(0.5);
+        shooterWristPIDController.reset(shooterWrist.getPosition().baseUnit(Units.Radian));
+        shooterWristPIDController.setGoal(setPoint);
+    }
 
-  // Returns true when the command should end.
-  @Override
-  public boolean isFinished() {
-    return false;
-  }
+    @Override
+    public void execute() {
+        Angle currentPosition = shooterWrist.getPosition();
+        AngularVelocity currentVelocity = shooterWrist.getVelocityInRadians();
+        double pidOutput = shooterWristPIDController.calculate(currentPosition.baseUnit(Units.Radian));
+        double feedforwardOutput = armFeedforward.calculate(currentPosition.baseUnit(), currentVelocity.baseUnit());
+        shooterWrist.setPower(pidOutput + feedforwardOutput);
+    }
+
+    // Called once the command ends or is interrupted.
+    @Override
+    public void end(boolean interrupted) {
+        shooterWrist.setPower(0);
+        shooterWrist.brake();
+    }
+
+    // Returns true when the command should end.
+    @Override
+    public boolean isFinished() {
+        return shooterWristPIDController.atGoal();
+    }
 }
   

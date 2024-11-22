@@ -7,6 +7,7 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.subsystems.ShooterWrist;
+import frc.robot.constants.WristConstants;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class ShooterWristMoveCommand extends Command {
@@ -14,7 +15,6 @@ public class ShooterWristMoveCommand extends Command {
   private final ShooterWrist shooterWrist;
   private final CommandXboxController controller;
   public ShooterWristMoveCommand(ShooterWrist shooterWrist, CommandXboxController controller) {
-    // Use addRequirements() here to declare subsystem dependencies.
     this.shooterWrist = shooterWrist;
     this.controller = controller;
     addRequirements(shooterWrist);
@@ -29,7 +29,18 @@ public class ShooterWristMoveCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    shooterWrist.setPower(controller.getLeftY());
+    // Get joystick input for manual control
+    double joystickInput = controller.getLeftY();
+
+    shooterWrist.setPower(joystickInput);
+
+    if (controller.a().getAsBoolean()) { 
+      shooterWrist.setTargetPosition(WristConstants.HOME_POSITION);
+    } else if (controller.b().getAsBoolean()) { 
+      shooterWrist.setTargetPosition(WristConstants.SCORING);
+    } else if (controller.x().getAsBoolean()) { 
+      shooterWrist.setTargetPosition(WristConstants.INTAKE_POSITION);
+    }
   }
 
   // Called once the command ends or is interrupted.
