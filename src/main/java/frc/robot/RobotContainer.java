@@ -26,18 +26,11 @@ public class RobotContainer {
   public RobotContainer() {
     configureBindings();
     autonChooser = AutoBuilder.buildAutoChooser();
-    SmartDashboard.putData("Current auton", autonChooser);
+    autonChooser.setDefaultOption("Oval Auton", ovalAuton);
   }
   
   public Command getAutonomousCommand() {
-    Command selectedAuton = autonChooser.getSelected();
-    if (selectedAuton == null) {
-        SmartDashboard.putString("Auton Status", "No autonomous command selected!");
-        System.out.println("No autonomous command selected");
-        return Commands.none(); 
-    }
-    SmartDashboard.putString("Auton Status", "Autonomous command selected: " + selectedAuton.getName());
-    return selectedAuton;
+    return autonChooser.getSelected();
   }
 
   private void configureBindings(){
