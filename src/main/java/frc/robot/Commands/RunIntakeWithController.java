@@ -5,6 +5,7 @@
 package frc.robot.Commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Subsystems.BeamBreakSubsystem;
 import frc.robot.Subsystems.IntakeSubsystem;
 
@@ -31,7 +32,9 @@ public class RunIntakeWithController extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if ((joystick.getRightBumperPressed || joystick.getLeftBumperPressed()));
+    // 
+    if ((joystick.rightBumper().getAsBoolean() || joystick.leftBumper().getAsBoolean())); // Need to check if it return True when pressed or vice versa
+
       intakeSubsystem.setPower(0.9);
   }
 

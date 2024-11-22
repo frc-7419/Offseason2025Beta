@@ -7,15 +7,15 @@ package frc.robot.Subsystems;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
+import frc.robot.Constants.IntakeConstants;
 
 public class BeamBreakSubsystem extends SubsystemBase {
     private final DigitalInput beamBreakFront;
     private final DigitalInput beamBreakBack;
 
     public BeamBreakSubsystem() {
-        beamBreakFront = new DigitalInput(Constants.BeambreakConstants.frontBeambreakChannel);
-        beamBreakBack = new DigitalInput(Constants.BeambreakConstants.backBeambreakChannel);
+        beamBreakFront = new DigitalInput(IntakeConstants.frontBeamBrake);
+        beamBreakBack = new DigitalInput(IntakeConstants.backBeamBrake);
     }
 
     public boolean frontBeamBreakIsTriggered() {
