@@ -8,53 +8,54 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import com.revrobotics.spark.SparkMax;
+import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.config.SparkMaxConfig;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 
 public class IntakeSubsystem extends SubsystemBase {
 
-  private final SparkMax motorOne;   
-  private final SparkMax motorTwo;
+  private final SparkMax topMotor;   
+  private final SparkMax bottomMotor;
 
   public IntakeSubsystem() {
-    motorOne = new SparkMax(IntakeConstants.motorOneCanID, IntakeConstants.motorOneType);
-    motorTwo = new SparkMax(IntakeConstants.motorTwoCanID, IntakeConstants.motorTwoType);
+    topMotor = new SparkMax(IntakeConstants.motorOneCanID, MotorType.kBrushless);
+    bottomMotor = new SparkMax(IntakeConstants.motorTwoCanID, MotorType.kBrushless);
 
-    motorOne.setInverted(false);
-    motorTwo.setInverted(true);
+    topMotor.setInverted(false);
+    bottomMotor.setInverted(true);
   }
 
   public void coast() {
-    motorOne.configure(new SparkMaxConfig().idleMode(IdleMode.kCoast), null, null);
-    motorTwo.configure(new SparkMaxConfig().idleMode(IdleMode.kCoast), null, null);
+    topMotor.configure(new SparkMaxConfig().idleMode(IdleMode.kCoast), null, null);
+    bottomMotor.configure(new SparkMaxConfig().idleMode(IdleMode.kCoast), null, null);
   }
 
   public void brake() {
-    motorOne.configure(new SparkMaxConfig().idleMode(IdleMode.kBrake), null, null);
-    motorTwo.configure(new SparkMaxConfig().idleMode(IdleMode.kBrake), null, null);
+    topMotor.configure(new SparkMaxConfig().idleMode(IdleMode.kBrake), null, null);
+    bottomMotor.configure(new SparkMaxConfig().idleMode(IdleMode.kBrake), null, null);
   }
 
   public void setPower(double power) {
-    motorOne.set(power);
-    motorTwo.set(power);
+    topMotor.set(power);
+    bottomMotor.set(power);
   }
 
   public void runAtVoltage(double voltage) {
-    motorOne.setVoltage(voltage);
-    motorTwo.setVoltage(voltage);
+    topMotor.setVoltage(voltage);
+    bottomMotor.setVoltage(voltage);
   }
 
   public double getVelocity() {
-    return motorOne.get();
+    return topMotor.getEncoder().getVelocity();
   }
 
   @Override
   public void periodic() {
-      SmartDashboard.putNumber("Voltage -- Motor One", motorOne.getBusVoltage());
-      SmartDashboard.putNumber("Voltage -- Motor Two", motorTwo.getBusVoltage());
-      SmartDashboard.putNumber("Speed -- Motor One", motorOne.get());
-      SmartDashboard.putNumber("Speed -- Motor Two", motorTwo.get());
-      SmartDashboard.putNumber("Current Draw -- Motor One", motorOne.getOutputCurrent());
-      SmartDashboard.putNumber("Current Draw -- Motor Two", motorTwo.getOutputCurrent());
+      SmartDashboard.putNumber("Voltage -- Motor One", topMotor.getBusVoltage());
+      SmartDashboard.putNumber("Voltage -- Motor Two", bottomMotor.getBusVoltage());
+      SmartDashboard.putNumber("Speed -- Motor One", topMotor.get());
+      SmartDashboard.putNumber("Speed -- Motor Two", bottomMotor.get());
+      SmartDashboard.putNumber("Current Draw -- Motor One", topMotor.getOutputCurrent());
+      SmartDashboard.putNumber("Current Draw -- Motor Two", bottomMotor.getOutputCurrent());
   }
 }
