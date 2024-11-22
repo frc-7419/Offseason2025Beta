@@ -7,7 +7,6 @@ package frc.robot.commands;
 import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
-import edu.wpi.first.units.Unit;
 import edu.wpi.first.units.Units;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularVelocity;
@@ -38,7 +37,7 @@ public class ShooterWristPIDCommand extends Command {
     public void initialize() {
         shooterWrist.coast();
         shooterWristPIDController.setTolerance(0.5);
-        shooterWristPIDController.reset(shooterWrist.getPosition().baseUnit(Units.Radian));
+        shooterWristPIDController.reset(shooterWrist.getPosition().in(Units.Radians));
         shooterWristPIDController.setGoal(setPoint);
     }
 
@@ -46,8 +45,8 @@ public class ShooterWristPIDCommand extends Command {
     public void execute() {
         Angle currentPosition = shooterWrist.getPosition();
         AngularVelocity currentVelocity = shooterWrist.getVelocityInRadians();
-        double pidOutput = shooterWristPIDController.calculate(currentPosition.baseUnit(Units.Radian));
-        double feedforwardOutput = armFeedforward.calculate(currentPosition.baseUnit(), currentVelocity.baseUnit());
+        double pidOutput = shooterWristPIDController.calculate(currentPosition.in(Units.Radian));
+        double feedforwardOutput = armFeedforward.calculate(currentPosition.in(Units.Radians), currentVelocity.in(Units.RadiansPerSecond));
         shooterWrist.setPower(pidOutput + feedforwardOutput);
     }
 
