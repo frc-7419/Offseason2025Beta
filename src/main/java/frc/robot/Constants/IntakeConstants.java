@@ -1,8 +1,8 @@
-package frc.robot.Constants;
+package frc.robot.constants;
 
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 
-public class IntakeConstants {
+public class IntakeConstants{
     public static final int motorOneCanID = 7;
     public static final int motorTwoCanID = 8;
     public static final MotorType motorOneType = MotorType.kBrushless;
