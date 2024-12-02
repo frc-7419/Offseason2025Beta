@@ -35,11 +35,11 @@ public class ShooterWristMoveCommand extends Command {
     shooterWrist.setPower(joystickInput);
 
     if (controller.a().getAsBoolean()) { 
-      shooterWrist.setTargetPosition(WristConstants.HOME_POSITION);
+      shooterWrist.setTargetPosition(WristConstants.homePosition);
     } else if (controller.b().getAsBoolean()) { 
-      shooterWrist.setTargetPosition(WristConstants.SCORING);
+      shooterWrist.setTargetPosition(WristConstants.scoring);
     } else if (controller.x().getAsBoolean()) { 
-      shooterWrist.setTargetPosition(WristConstants.INTAKE_POSITION);
+      shooterWrist.setTargetPosition(WristConstants.intakePosition);
     }
   }
 

@@ -28,7 +28,7 @@ public class ShooterWristPIDCommand extends Command {
             WristConstants.kP, 
             WristConstants.kI, 
             WristConstants.kD, 
-            new TrapezoidProfile.Constraints(WristConstants.MAX_VELOCITY, WristConstants.MAX_ACCELERATION)
+            new TrapezoidProfile.Constraints(WristConstants.maxVelocity, WristConstants.maxAcceleration)
         );
         addRequirements(shooterWrist);
     }

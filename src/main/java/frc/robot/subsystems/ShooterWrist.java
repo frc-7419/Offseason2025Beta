@@ -18,10 +18,10 @@ import frc.robot.constants.WristConstants;
 public class ShooterWrist extends SubsystemBase {
   private final TalonFX wristMotor;
   private final DutyCycleEncoder encoder;
-  private double targetPosition = WristConstants.STOW_POSITION;
+  private double targetPosition = WristConstants.stowPosition;
 
   public ShooterWrist() {
-    wristMotor = new TalonFX(WristConstants.CAN_ID); // Replace 1 with actual CAN ID
+    wristMotor = new TalonFX(WristConstants.canID); // Replace 1 with actual CAN ID
     encoder = new DutyCycleEncoder(5);
     configureMotor();
   }
