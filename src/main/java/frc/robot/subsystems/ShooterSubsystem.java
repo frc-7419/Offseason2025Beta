@@ -30,7 +30,7 @@ public class ShooterSubsystem extends SubsystemBase {
         topShooterMotor = new SparkMax(ShooterConstants.kTopShooterMotorCanID, MotorType.kBrushless);
         bottomShooterMotor = new SparkMax(ShooterConstants.kBottomShooterMotorCanID, MotorType.kBrushless);
         
-
+        bottomShooterMotor.setInverted(true);
     }
 
     public void coast() {
@@ -70,10 +70,20 @@ public class ShooterSubsystem extends SubsystemBase {
 
     public double getTopEncoderVelocity() {
         return topEncoder.getVelocity();
+        
     }
 
     public double getBottomEncoderVelocity() {
         return bottomEncoder.getVelocity();
+    }
+
+    public double getTopEncoderPosition() {
+        return topEncoder.getPosition();
+        
+    }
+
+    public double getBottomEncoderPosition() {
+        return bottomEncoder.getPosition();
     }
 
     @Override

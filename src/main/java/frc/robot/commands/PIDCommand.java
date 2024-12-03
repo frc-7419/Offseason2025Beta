@@ -18,11 +18,10 @@ public class PIDCommand extends Command{
     double desiredRPM = ShooterConstants.desiredRPM;
 
     public PIDCommand(ShooterSubsystem shooterSubsystem){
-        topShooterPIDController.setTolerance(2);
-        topShooterPIDController.setSetpoint(desiredRPM);
-
-        bottomShooterPIDController.setTolerance(2);
-        bottomShooterPIDController.setSetpoint(desiredRPM);
+        topShooterPIDController = new PIDController(ShooterConstants.kP, ShooterConstants.kI, ShooterConstants.kD, 
+                                               shooterSubsystem.getTopEncoderVelocity());
+        bottomShooterPIDController = new PIDController(ShooterConstants.kP, ShooterConstants.kI, ShooterConstants.kD, 
+                                               shooterSubsystem.getBottomEncoderVelocity());
 
         this.shooterSubsystem = shooterSubsystem;
 
@@ -30,31 +29,23 @@ public class PIDCommand extends Command{
 
     }
 
-    private void configurePIDControllers() {
-        topShooterPIDController.setP(ShooterConstants.kP);
-        topShooterPIDController.setI(ShooterConstants.kI);
-        topShooterPIDController.setD(ShooterConstants.kD);
+    public void initialize() {
+        topShooterPIDController.setTolerance(2);
+        bottomShooterPIDController.setTolerance(2);
 
-
-        bottomShooterPIDController.setP(ShooterConstants.kP);
-        bottomShooterPIDController.setI(ShooterConstants.kI);
-        bottomShooterPIDController.setD(ShooterConstants.kD);
-
-
-        topShooterPIDController = new PIDController(ShooterConstants.kP, ShooterConstants.kI, ShooterConstants.kD, 
-                                               shooterSubsystem.getTopEncoderVelocity());
-        bottomShooterPIDController = new PIDController(ShooterConstants.kP, ShooterConstants.kI, ShooterConstants.kD, 
-                                               shooterSubsystem.getBottomEncoderVelocity());
+        topShooterPIDController.reset();
+        bottomShooterPIDController.reset();
         
         topShooterPIDController.setSetpoint(convertToRPM(desiredRPM));
         bottomShooterPIDController.setSetpoint(convertToRPM(desiredRPM));
+
     }
 
-    public void execute(){
-        double topShooterVelocity = shooterSubsystem.getTopEncoderVelocity();
-        double bottomShooterVelocity = shooterSubsystem.getBottomEncoderVelocity();
 
-       
+
+    public void execute(){
+        double PIDOutput = topShooterPIDController.calculate(shooterSubsystem.getTopEncoderPosition());
+        shooterSubsystem.setVoltage(PIDOutput);
     }
 
 
