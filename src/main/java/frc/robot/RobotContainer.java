@@ -18,6 +18,7 @@ public class RobotContainer {
   public RobotContainer() {
     shooterWristMoveCommand = new ShooterWristMoveCommand(wrist, operator);
     configureBindings();
+    setDefaultCommands();
   }
 
   private void configureBindings() {
@@ -29,5 +30,9 @@ public class RobotContainer {
 
   public Command getAutonomousCommand() {
     return null;
+  }
+
+  private void setDefaultCommands() {
+    wrist.setDefaultCommand(shooterWristMoveCommand);
   }
 }
