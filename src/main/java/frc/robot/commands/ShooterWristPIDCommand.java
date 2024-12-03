@@ -13,6 +13,7 @@ import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.constants.WristConstants;
 import frc.robot.subsystems.ShooterWrist;
+import edu.wpi.first.units.measure.Voltage;
 
 public class ShooterWristPIDCommand extends Command {
     private final ShooterWrist shooterWrist;
@@ -46,8 +47,8 @@ public class ShooterWristPIDCommand extends Command {
         Angle currentPosition = shooterWrist.getPosition();
         AngularVelocity currentVelocity = shooterWrist.getVelocityInRadians();
         double pidOutput = shooterWristPIDController.calculate(currentPosition.in(Units.Radian));
-        double feedforwardOutput = armFeedforward.calculate(currentPosition.in(Units.Radians), currentVelocity.in(Units.RadiansPerSecond));
-        shooterWrist.setPower(pidOutput + feedforwardOutput);
+        Voltage feedforwardOutput = armFeedforward.calculate(currentPosition, currentVelocity);
+        shooterWrist.setPower(pidOutput + feedforwardOutput.in(Units.Volts));
     }
 
     // Called once the command ends or is interrupted.
