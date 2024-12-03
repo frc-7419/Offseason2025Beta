@@ -8,22 +8,23 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.subsystems.ShooterWrist;
 import frc.robot.commands.ShooterWristMoveCommand;
+import frc.robot.constants.OperatorConstants;
 
 public class RobotContainer {
   private final ShooterWrist wrist = new ShooterWrist();
-  private final CommandXboxController driverController = new CommandXboxController(0);
+  private final CommandXboxController operator = new CommandXboxController(OperatorConstants.kOperatorJoystickPort);
   private final ShooterWristMoveCommand shooterWristMoveCommand;
 
   public RobotContainer() {
-    shooterWristMoveCommand = new ShooterWristMoveCommand(wrist, driverController);
+    shooterWristMoveCommand = new ShooterWristMoveCommand(wrist, operator);
     configureBindings();
   }
 
   private void configureBindings() {
     // Bind wrist positions to buttons
-    driverController.a().onTrue(shooterWristMoveCommand);
-    driverController.b().onTrue(shooterWristMoveCommand);
-    driverController.x().onTrue(shooterWristMoveCommand);
+    operator.a().onTrue(shooterWristMoveCommand);
+    operator.b().onTrue(shooterWristMoveCommand);
+    operator.x().onTrue(shooterWristMoveCommand);
   }
 
   public Command getAutonomousCommand() {
