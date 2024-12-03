@@ -10,20 +10,20 @@ import frc.robot.subsystems.ShooterWrist;
 import frc.robot.commands.ShooterWristMoveCommand;
 
 public class RobotContainer {
-  private final ShooterWrist m_wrist = new ShooterWrist();
-  private final CommandXboxController m_driverController = new CommandXboxController(0);
-  private final ShooterWristMoveCommand m_shooterWristMoveCommand;
+  private final ShooterWrist wrist = new ShooterWrist();
+  private final CommandXboxController driverController = new CommandXboxController(0);
+  private final ShooterWristMoveCommand shooterWristMoveCommand;
 
   public RobotContainer() {
-    m_shooterWristMoveCommand = new ShooterWristMoveCommand(m_wrist, m_driverController);
+    shooterWristMoveCommand = new ShooterWristMoveCommand(wrist, driverController);
     configureBindings();
   }
 
   private void configureBindings() {
     // Bind wrist positions to buttons
-    m_driverController.a().onTrue(m_shooterWristMoveCommand);
-    m_driverController.b().onTrue(m_shooterWristMoveCommand);
-    m_driverController.x().onTrue(m_shooterWristMoveCommand);
+    driverController.a().onTrue(shooterWristMoveCommand);
+    driverController.b().onTrue(shooterWristMoveCommand);
+    driverController.x().onTrue(shooterWristMoveCommand);
   }
 
   public Command getAutonomousCommand() {
