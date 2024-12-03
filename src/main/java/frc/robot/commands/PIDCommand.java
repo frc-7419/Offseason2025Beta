@@ -28,7 +28,7 @@ public class PIDCommand extends Command{
         addRequirements(shooterSubsystem);
 
     }
-
+    @Override
     public void initialize() {
         topShooterPIDController.setTolerance(2);
         bottomShooterPIDController.setTolerance(2);
@@ -42,7 +42,7 @@ public class PIDCommand extends Command{
     }
 
 
-
+    @Override
     public void execute(){
         double PIDOutput = topShooterPIDController.calculate(shooterSubsystem.getTopEncoderPosition());
         shooterSubsystem.setVoltage(PIDOutput);
@@ -62,6 +62,18 @@ public class PIDCommand extends Command{
     public double convertToMS(double convertee) {
         double ms = Units.MetersPerSecond.convertFrom(convertee, Units.MetersPerSecond);
         return ms;
+    }
+
+    @Override
+    public void end(boolean interrupted) {
+        shooterSubsystem.brake();
+        shooterSubsystem.setVoltage(0);
+    }
+
+    @Override
+    public boolean isFinished() {
+        return topShooterPIDController.atSetpoint();
+        
     }
 
     
