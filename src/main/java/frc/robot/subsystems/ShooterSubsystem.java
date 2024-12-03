@@ -16,99 +16,42 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class ShooterSubsystem extends SubsystemBase {
-    SparkMax topShooterMotor1;
-    SparkMax topShooterMotor2;
-    SparkMax bottomShooterMotor1;
-    SparkMax bottomShooterMotor2;
+    SparkMax topShooterMotor;
+    SparkMax bottomShooterMotor;
 
     
-    Encoder topEncoder1;
-    Encoder topEncoder2;
-    Encoder bottomEncoder1;
-    Encoder bottomEncoder2;
+    RelativeEncoder topEncoder;
+    RelativeEncoder bottomEncoder;
 
-    PIDController topShooterPIDController1;
-    PIDController topShooterPIDController2;
-    PIDController bottomShooterPIDController1;
-    PIDController bottomShooterPIDController2;
+
 
     double desiredRPM = ShooterConstants.desiredRPM;
 
     public ShooterSubsystem() {
-        topShooterMotor1 = new SparkMax(ShooterConstants.kTopShooterMotorCanID, MotorType.kBrushless);
-        topShooterMotor2 = new SparkMax(ShooterConstants.kTopShooterMotorCanID, MotorType.kBrushless);
-        bottomShooterMotor1 = new SparkMax(ShooterConstants.kBottomShooterMotorCanID, MotorType.kBrushless);
-        bottomShooterMotor2 = new SparkMax(ShooterConstants.kBottomShooterMotorCanID, MotorType.kBrushless);
+        topShooterMotor = new SparkMax(ShooterConstants.kTopShooterMotorCanID, MotorType.kBrushless);
+        bottomShooterMotor = new SparkMax(ShooterConstants.kBottomShooterMotorCanID, MotorType.kBrushless);
         
-        topShooterPIDController1.setTolerance(2);
-        topShooterPIDController1.setSetpoint(desiredRPM);
+
     }
 
     public void coast() {
-        topShooterMotor1.configure(new SparkMaxConfig().idleMode(IdleMode.kCoast), null, null);
-        topShooterMotor2.configure(new SparkMaxConfig().idleMode(IdleMode.kCoast), null, null);
-        bottomShooterMotor1.configure(new SparkMaxConfig().idleMode(IdleMode.kCoast), null, null);
-        bottomShooterMotor2.configure(new SparkMaxConfig().idleMode(IdleMode.kCoast), null, null);
+        topShooterMotor.configure(new SparkMaxConfig().idleMode(IdleMode.kCoast), null, null);
+        bottomShooterMotor.configure(new SparkMaxConfig().idleMode(IdleMode.kCoast), null, null);
     }
 
     public void brake() {
-        topShooterMotor1.configure(new SparkMaxConfig().idleMode(IdleMode.kBrake), null, null);
-        topShooterMotor2.configure(new SparkMaxConfig().idleMode(IdleMode.kBrake), null, null);
-        bottomShooterMotor1.configure(new SparkMaxConfig().idleMode(IdleMode.kBrake), null, null);
-        bottomShooterMotor2.configure(new SparkMaxConfig().idleMode(IdleMode.kBrake), null, null);
-    }
-
-    // Set PID coefficients from ShooterConstants
-    private void configurePIDControllers() {
-
-        RelativeEncoder topEncoder1 = topShooterMotor1.getEncoder();
-        RelativeEncoder topEncoder2 = topShooterMotor2.getEncoder();
-        RelativeEncoder bottomEncoder1 = bottomShooterMotor1.getEncoder();
-        RelativeEncoder bottomEncoder2 = bottomShooterMotor2.getEncoder();
-        
-        topShooterPIDController1.setP(ShooterConstants.kP);
-        topShooterPIDController1.setI(ShooterConstants.kI);
-        topShooterPIDController1.setD(ShooterConstants.kD);
-
-        topShooterPIDController2.setP(ShooterConstants.kP);
-        topShooterPIDController2.setI(ShooterConstants.kI);
-        topShooterPIDController2.setD(ShooterConstants.kD);
-
-        bottomShooterPIDController1.setP(ShooterConstants.kP);
-        bottomShooterPIDController1.setI(ShooterConstants.kI);
-        bottomShooterPIDController1.setD(ShooterConstants.kD);
-
-        bottomShooterPIDController2.setP(ShooterConstants.kP);
-        bottomShooterPIDController2.setI(ShooterConstants.kI);
-        bottomShooterPIDController2.setD(ShooterConstants.kD);
-
-        topShooterPIDController1 = new PIDController(ShooterConstants.kP, ShooterConstants.kI, ShooterConstants.kD, 
-                                               topEncoder1.getVelocity());
-        topShooterPIDController2 = new PIDController(ShooterConstants.kP, ShooterConstants.kI, ShooterConstants.kD, 
-                                               topEncoder2.getVelocity());
-        bottomShooterPIDController1 = new PIDController(ShooterConstants.kP, ShooterConstants.kI, ShooterConstants.kD, 
-                                               bottomEncoder1.getVelocity());
-        bottomShooterPIDController2 = new PIDController(ShooterConstants.kP, ShooterConstants.kI, ShooterConstants.kD, 
-                                               bottomEncoder2.getVelocity());
-        
-        topShooterPIDController1.setSetpoint(convertToRPM(desiredRPM));
-        topShooterPIDController2.setSetpoint(convertToRPM(desiredRPM));
-        bottomShooterPIDController1.setSetpoint(convertToRPM(desiredRPM));
-        bottomShooterPIDController2.setSetpoint(convertToRPM(desiredRPM));
+        topShooterMotor.configure(new SparkMaxConfig().idleMode(IdleMode.kBrake), null, null);
+        bottomShooterMotor.configure(new SparkMaxConfig().idleMode(IdleMode.kBrake), null, null);
     }
 
     public void setPower(double power) {
-        topShooterMotor1.set(power);
-        topShooterMotor2.set (power);
-        bottomShooterMotor1.set(power);
-        bottomShooterMotor2.set (power);
+        topShooterMotor.set(power);
+        bottomShooterMotor.set(power);
     }
 
     public void setvoltage(double voltage) {
-        topShooterMotor1.setVoltage(voltage);
-        topShooterMotor2.setVoltage(voltage);
-        bottomShooterMotor1.setVoltage(voltage);
-        bottomShooterMotor2.setVoltage(voltage);
+        topShooterMotor.setVoltage(voltage);
+        bottomShooterMotor.setVoltage(voltage);
     }
 
     public double convertToRPM(double convertee) {
@@ -126,49 +69,43 @@ public class ShooterSubsystem extends SubsystemBase {
         return ms;
     }
 
+    public double getTopEncoderVelocity() {
+        return topEncoder.getVelocity();
+    }
+
+    public double getBottomEncoderVelocity() {
+        return bottomEncoder.getVelocity();
+    }
+
     @Override
     public void periodic() {
         // Get current draw
-        SmartDashboard.putNumber("Top Shooter Motor 1 Current Draw", topShooterMotor1.getOutputCurrent());
-        SmartDashboard.putNumber("Top Shooter Motor 2 Current Draw", topShooterMotor2.getOutputCurrent());
-        SmartDashboard.putNumber("Bottom Shooter Motor 1 Current Draw", bottomShooterMotor1.getOutputCurrent());
-        SmartDashboard.putNumber("Bottom Shooter Motor 2 Current Draw", bottomShooterMotor2.getOutputCurrent());
+        SmartDashboard.putNumber("Top Shooter Motor Current Draw", topShooterMotor.getOutputCurrent());
+        SmartDashboard.putNumber("Bottom Shooter Motor Current Draw", bottomShooterMotor.getOutputCurrent());
 
         // Get voltage
-        SmartDashboard.putNumber("Top Shooter Motor 1 Voltage", topShooterMotor1.getBusVoltage());
-        SmartDashboard.putNumber("Top Shooter Motor 2 Voltage", topShooterMotor2.getBusVoltage());
-        SmartDashboard.putNumber("Bottom Shooter Motor 1 Voltage", bottomShooterMotor1.getBusVoltage());
-        SmartDashboard.putNumber("Bottom Shooter Motor 2 Voltage", bottomShooterMotor2.getBusVoltage());
+        SmartDashboard.putNumber("Top Shooter Motor Voltage", topShooterMotor.getBusVoltage());
+        SmartDashboard.putNumber("Bottom Shooter Motor Voltage", bottomShooterMotor.getBusVoltage());
 
         // Get speed
-        SmartDashboard.putNumber("Top Shooter Motor 1 Speed", topShooterMotor1.get());
-        SmartDashboard.putNumber("Top Shooter Motor 2 Speed", topShooterMotor2.get());
-        SmartDashboard.putNumber("Bottom Shooter Motor 1 Speed", bottomShooterMotor1.get());
-        SmartDashboard.putNumber("Bottom Shooter Motor 2 Speed", bottomShooterMotor2.get());
+        SmartDashboard.putNumber("Top Shooter Motor Speed", topShooterMotor.get());
+        SmartDashboard.putNumber("Bottom Shooter Motor 1 Speed", bottomShooterMotor.get());
 
         // Get RPM
-        SmartDashboard.putNumber("Top Shooter Motor 1 RPM", convertToRPM(topShooterMotor1.get()));
-        SmartDashboard.putNumber("Top Shooter Motor 2 RPM", convertToRPM(topShooterMotor2.get()));
-        SmartDashboard.putNumber("Bottom Shooter Motor 1 RPM", convertToRPM(bottomShooterMotor1.get()));
-        SmartDashboard.putNumber("Bottom Shooter Motor 2 RPM", convertToRPM(bottomShooterMotor2.get()));
+        SmartDashboard.putNumber("Top Shooter Motor RPM", convertToRPM(topShooterMotor.get()));
+        SmartDashboard.putNumber("Bottom Shooter Motor RPM", convertToRPM(bottomShooterMotor.get()));
 
         // Get RPS
-        SmartDashboard.putNumber("Top Shooter Motor 1 RPS", convertToRPS(topShooterMotor1.get()));
-        SmartDashboard.putNumber("Top Shooter Motor 2 RPS", convertToRPS(topShooterMotor2.get()));
-        SmartDashboard.putNumber("Bottom Shooter Motor 1 RPS", convertToRPS(bottomShooterMotor1.get()));
-        SmartDashboard.putNumber("Bottom Shooter Motor 2 RPS", convertToRPS(bottomShooterMotor2.get()));
+        SmartDashboard.putNumber("Top Shooter Motor RPS", convertToRPS(topShooterMotor.get()));
+        SmartDashboard.putNumber("Bottom Shooter Motor RPS", convertToRPS(bottomShooterMotor.get()));
 
         // Get m/s
-        SmartDashboard.putNumber("Top Shooter Motor 1 MS", convertToMS(topShooterMotor1.get()));
-        SmartDashboard.putNumber("Top Shooter Motor 2 MS", convertToMS(topShooterMotor2.get()));
-        SmartDashboard.putNumber("Bottom Shooter Motor 1 MS", convertToMS(bottomShooterMotor1.get()));
-        SmartDashboard.putNumber("Bottom Shooter Motor 2 MS", convertToMS(bottomShooterMotor2.get()));
+        SmartDashboard.putNumber("Top Shooter Motor MS", convertToMS(topShooterMotor.get()));
+        SmartDashboard.putNumber("Bottom Shooter Motor MS", convertToMS(bottomShooterMotor.get()));
 
         // Get temperature
-        SmartDashboard.putNumber("Top Shooter Motor 1 Temperature", topShooterMotor1.getMotorTemperature());
-        SmartDashboard.putNumber("Top Shooter Motor 2 Temperature", topShooterMotor2.getMotorTemperature());
-        SmartDashboard.putNumber("Bottom Shooter Motor 1 Temperature", bottomShooterMotor1.getMotorTemperature());
-        SmartDashboard.putNumber("Bottom Shooter Motor 2 Temperature", bottomShooterMotor2.getMotorTemperature());
+        SmartDashboard.putNumber("Top Shooter Motor Temperature", topShooterMotor.getMotorTemperature());
+        SmartDashboard.putNumber("Bottom Shooter Motor Temperature", bottomShooterMotor.getMotorTemperature());
     }
 
     public double get() {
