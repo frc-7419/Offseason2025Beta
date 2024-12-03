@@ -22,7 +22,7 @@ public class DiffVelShooterCommand extends Command {
     public void execute() {
         // Fix to get Encoder Reading
         // double actualRPM = shooter.convertToRPM(shooter.get()); 
-        double feedforwardOutput = (ShooterConstants.desiredRPM - actualRPM) * kFTop;
+        double feedforwardOutput = (ShooterConstants.desiredRPM - shooter.convertToRPM(shooter.get())) * kFTop;
         shooter.setPower(feedforwardOutput);
     }
 
