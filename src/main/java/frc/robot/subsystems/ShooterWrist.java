@@ -18,7 +18,6 @@ import frc.robot.constants.WristConstants;
 public class ShooterWrist extends SubsystemBase {
   private final TalonFX wristMotor;
   private final DutyCycleEncoder encoder;
-  private double targetPosition = WristConstants.stowPosition;
 
   public ShooterWrist() {
     wristMotor = new TalonFX(WristConstants.canID); // Replace 1 with actual CAN ID
@@ -53,14 +52,9 @@ public class ShooterWrist extends SubsystemBase {
       return AngularVelocity.ofBaseUnits(getVelocity() * 2 * Math.PI, Units.RadiansPerSecond);
   }
 
-
   // public double getCurrentPosition() {
   //   return encoder.getPosition();
   // }
-
-  public void setTargetPosition(double position) {
-    targetPosition = position;
-  }
 
   public Angle getPosition() {
     return Angle.ofBaseUnits(encoder.get(), Units.Radians);
@@ -77,7 +71,6 @@ public class ShooterWrist extends SubsystemBase {
 
   @Override
   public void periodic() {
-    SmartDashboard.putNumber("Wrist Target", targetPosition);
     SmartDashboard.putNumber("Wrist Rotations", encoder.get());
     SmartDashboard.putNumber("Wrist Velocity", wristMotor.getVelocity().getValueAsDouble());
   }

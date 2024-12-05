@@ -6,13 +6,12 @@ public final class WristConstants {
     public static final double maxVelocity = 80.0; // rotations per second
     public static final double maxAcceleration = 160.0; // rotations per second^2
 
-    public static final double stowPosition = 0.0;
+    public static final double stowPosition = Math.PI/0.2;
 
     //Preset Positions
-    public static final double scoring = 45.0;
-    public static final double intakePosition = -30.0;
-    public static final double homePosition = 0.0;
-    
+    public static final double scoring = Math.PI/4.0; 
+    public static final double intakePosition = Math.PI/-6.0;
+    public static final double homePosition = Math.PI/0.1;
     
     public static final double kP = 4.8;
     public static final double kI = 0.0;
